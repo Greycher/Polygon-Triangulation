@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f669e185596c634b8537afd2736f004, type: 3}
+  m_Name: Polygon 1
+  m_EditorClassIdentifier: 
+  vertices:
+  - {x: -5.79, y: 1.04}
+  - {x: 10.96, y: -6.01}
+  - {x: 15.68, y: 8.56}
+  - {x: 5.36, y: 7.66}
+  - {x: -1.89, y: 2.22}
+  - {x: -7.75, y: 9.5}
+  - {x: -10.38, y: 4.06}
+  - {x: -13.86, y: 1.05}
+  - {x: -12.76, y: -5.3}
