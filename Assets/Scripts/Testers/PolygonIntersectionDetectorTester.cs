@@ -19,15 +19,16 @@ public class PolygonIntersectionDetectorTester : MonoBehaviour
         {
             segments[i] = new Geometry.Segment(polygon.vertices[i], polygon.vertices[(i + 1) % vertexCount]);
         }
-        _intersections = _bentleyOttmann.DetectIntersections(segments, true);
+        _intersections = _bentleyOttmann.DetectIntersections(segments);
     }
     
     private void OnDrawGizmos()
     {
         var vertexCount = polygon.VertexCount;
         if (vertexCount == 0) return;
-
+        
         Utility.DrawPolygon(polygon.vertices);
+        Utility.DrawVertices(polygon.vertices, 0.6f);
 
         if (_intersections != null)
         {

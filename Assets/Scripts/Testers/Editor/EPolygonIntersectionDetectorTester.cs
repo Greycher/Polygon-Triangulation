@@ -19,9 +19,9 @@ public class EPolygonIntersectionDetectorTester : Editor
     private bool _loadFoldout;
     private PolygonSetup _setup;
     
-    private int _vertexCount = 10;
-    private float _minVertexDistance = 1;
-    private float _maxVertexDistance = 5;
+    // private int _vertexCount = 10;
+    // private float _minVertexDistance = 1;
+    // private float _maxVertexDistance = 5;
 
     private void OnEnable()
     {
@@ -108,6 +108,7 @@ public class EPolygonIntersectionDetectorTester : Editor
                 {
                     vertices[i] = _setup.vertices[i];
                 }
+                _tester.polygon = new Geometry.Polygon(vertices);
                 SaveTarget();
                 _tester.DetectIntersections();
             }
@@ -124,7 +125,7 @@ public class EPolygonIntersectionDetectorTester : Editor
             for (int i = 0; i < vertexCount; i++)
             {
                 var vertex = polygon.vertices[i];
-                vertex = Utility.PositionHandle(vertex, i.ToString());
+                vertex = Utility.PositionHandle(vertex, i.ToString(), 24, Color.yellow);
                 polygon.vertices[i] = vertex;
             }
 

@@ -20,7 +20,7 @@ namespace PolygonTriangulation.Tester
             return vertices;
         }
         
-        public static void DrawVertices(Vector2[] vertices)
+        public static void DrawVertices(Vector2[] vertices, float pointRad = 0.2f)
         {
             var length = vertices.Length;
             for (int i = 0; i < length; i++)
@@ -40,7 +40,7 @@ namespace PolygonTriangulation.Tester
                         break;
                 }
 
-                Gizmos.DrawSphere(vertices[(i + 2) % length], 0.2f);
+                Gizmos.DrawSphere(vertices[(i + 2) % length], pointRad);
             }
         }
 

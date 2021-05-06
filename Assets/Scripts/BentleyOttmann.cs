@@ -10,7 +10,7 @@ public class BentleyOttmann
     List<Vector2> _intersections = new List<Vector2>();
     private int[,] _intersectionCheckMatrix;
     
-    public Vector2[] DetectIntersections(Segment[] segments, bool isPolygon = false)
+    public Vector2[] DetectIntersections(Segment[] segments)
     {
         Reset();
 
@@ -38,7 +38,7 @@ public class BentleyOttmann
                 {
                     UpdateYPositions(point);
                     QuickSort(ref _sweepLine, 0, _sweepLine.Count - 1);
-                    AddToSweepLine(point, isPolygon);
+                    AddToSweepLine(point);
                     break;
                 }
 
@@ -46,13 +46,13 @@ public class BentleyOttmann
                 {
                     UpdateYPositions(point);
                     QuickSort(ref _sweepLine, 0, _sweepLine.Count - 1);
-                    RemoveFromSweepLine(point, isPolygon);
+                    RemoveFromSweepLine(point);
                     break;
                 }
                 
                 case PointType.Intersection:
                 {
-                    SwapIntersectionPoints(point, isPolygon);
+                    SwapIntersectionPoints(point);
                     break;
                 }
             }
@@ -79,7 +79,7 @@ public class BentleyOttmann
         }
     }
 
-    private void SwapIntersectionPoints(Point point, bool isPolygon)
+    private void SwapIntersectionPoints(Point point)
     {
         var sweepLineIndex1 = -1;
         var sweepLineIndex2 = -1;
@@ -102,19 +102,19 @@ public class BentleyOttmann
         _sweepLine[sweepLineIndex1] = _sweepLine[sweepLineIndex2];
         _sweepLine[sweepLineIndex2] = temp;
 
-        CheckForNeighborSegmentIntersections(sweepLineIndex1, isPolygon);
-        CheckForNeighborSegmentIntersections(sweepLineIndex2, isPolygon);
+        CheckForNeighborSegmentIntersections(sweepLineIndex1);
+        CheckForNeighborSegmentIntersections(sweepLineIndex2);
     }
 
-    private void AddToSweepLine(Point point, bool isPolygon)
+    private void AddToSweepLine(Point point)
     {
         var y = point.position.y;
         var index = SweepLineBinarySearchIndexToInsert(0, _sweepLine.Count - 1, y);
         _sweepLine.Insert(index, new SweepLinePoint(y, point.s1Index));
-        CheckForNeighborSegmentIntersections(index, isPolygon);
+        CheckForNeighborSegmentIntersections(index);
     }
     
-    private void RemoveFromSweepLine(Point point, bool isPolygon)
+    private void RemoveFromSweepLine(Point point)
     {
         for (int j = 0; j < _sweepLine.Count; j++)
         {
@@ -123,85 +123,54 @@ public class BentleyOttmann
                 _sweepLine.RemoveAt(j);
                 if (j != _sweepLine.Count)
                 {
-                    CheckForNeighborSegmentIntersections(j, isPolygon);
+                    CheckForNeighborSegmentIntersections(j);
                 }
                 break;
             }
         }
     }
 
-    private void CheckForNeighborSegmentIntersections(int index, bool isPolygon)
+    private void CheckForNeighborSegmentIntersections(int index)
     {
         var sweepLineCount = _sweepLine.Count;
         if (sweepLineCount < 2) return;
         
         var s1Index = _sweepLine[index].segmentIndex;
-        var segment = _segments[s1Index];
 
         if (index > 0)
         {
             var s2Index = _sweepLine[index - 1].segmentIndex;
-            if (isPolygon)
+            
+            if (_intersectionCheckMatrix[s1Index, s2Index] == 0)
             {
-                if (Mathf.Abs(s1Index - s2Index) == 1)
+                _intersectionCheckMatrix[s1Index, s2Index] = 1;
+                _intersectionCheckMatrix[s2Index, s1Index] = 1;
+                if (TryGetIntersectionPointOfTwoSegments(_segments[s1Index], _segments[s2Index], out Vector2 intersectionPoint))
                 {
-                    if (index > 1)
-                    {
-                        s2Index = _sweepLine[index - 2].segmentIndex;
-                        CheckForIntersectionWithoutRepeat(s1Index, s2Index, segment);
-                    }
+                    var pointIndex = BinarySearchIndexToInsert(_points, 0, _points.Count - 1, intersectionPoint);
+                    _points.Insert(pointIndex, new Point(PointType.Intersection, intersectionPoint, s1Index, s2Index));
+                    _intersections.Add(intersectionPoint);
                 }
-                else
-                {
-                    CheckForIntersectionWithoutRepeat(s1Index, s2Index, segment);
-                }
-            }
-            else
-            {
-                CheckForIntersectionWithoutRepeat(s1Index, s2Index, segment);
             }
         }
-                        
+        
         if (index < sweepLineCount - 1)
         {
             var s2Index = _sweepLine[index + 1].segmentIndex;
-            if (isPolygon)
+            if (_intersectionCheckMatrix[s1Index, s2Index] == 0)
             {
-                if (Mathf.Abs(s1Index - s2Index) == 1)
+                _intersectionCheckMatrix[s1Index, s2Index] = 1;
+                _intersectionCheckMatrix[s2Index, s1Index] = 1;
+                if (TryGetIntersectionPointOfTwoSegments(_segments[s1Index], _segments[s2Index], out Vector2 intersectionPoint))
                 {
-                    if (index < sweepLineCount - 2)
-                    {
-                        s2Index = _sweepLine[index + 2].segmentIndex;
-                        CheckForIntersectionWithoutRepeat(s1Index, s2Index, segment);
-                    }
+                    var pointIndex = BinarySearchIndexToInsert(_points, 0, _points.Count - 1, intersectionPoint);
+                    _points.Insert(pointIndex, new Point(PointType.Intersection, intersectionPoint, s1Index, s2Index));
+                    _intersections.Add(intersectionPoint);
                 }
-                else
-                {
-                    CheckForIntersectionWithoutRepeat(s1Index, s2Index, segment);
-                }
-            }
-            else
-            {
-                CheckForIntersectionWithoutRepeat(s1Index, s2Index, segment);
             }
         }
     }
-
-    private void CheckForIntersectionWithoutRepeat(int s1Index, int s2Index, Segment segment)
-    {
-        if (_intersectionCheckMatrix[s1Index, s2Index] == 0)
-        {
-            _intersectionCheckMatrix[s1Index, s2Index] = 1;
-            _intersectionCheckMatrix[s2Index, s1Index] = 1;
-            if (TryGetIntersectionPointOfTwoSegments(segment, _segments[s2Index], out Vector2 intersectionPoint))
-            {
-                var pointIndex = BinarySearchIndexToInsert(_points, 0, _points.Count - 1, intersectionPoint);
-                _points.Insert(pointIndex, new Point(PointType.Intersection, intersectionPoint, s1Index, s2Index));
-                _intersections.Add(intersectionPoint);
-            }
-        }
-    }
-
+    
     private void Reset()
     {
         _points.Clear();
