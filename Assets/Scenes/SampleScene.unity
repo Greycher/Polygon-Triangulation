@@ -198,18 +198,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
+      propertyPath: maxDecomposingStep
+      value: 5151515
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
       propertyPath: vertices.Array.size
-      value: 10
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.size
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: vertices.Array.data[0].x
-      value: -8.335194
+      value: -9.065819
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: vertices.Array.data[0].y
-      value: 8.52483
+      value: 8.458409
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
@@ -234,22 +244,22 @@ PrefabInstance:
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: vertices.Array.data[3].x
-      value: -25.584568
+      value: -24.97372
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: vertices.Array.data[3].y
-      value: -2.2080874
+      value: -21.014797
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: vertices.Array.data[4].x
-      value: 12.245168
+      value: 25.565678
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: vertices.Array.data[4].y
-      value: 2.3426187
+      value: -20.752028
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
@@ -264,12 +274,12 @@ PrefabInstance:
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: vertices.Array.data[6].x
-      value: -23.758667
+      value: -45.738197
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: vertices.Array.data[6].y
-      value: 1.2070091
+      value: 19.136044
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
@@ -294,17 +304,192 @@ PrefabInstance:
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: vertices.Array.data[9].x
-      value: -13.995004
+      value: -25.884277
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: vertices.Array.data[9].y
-      value: -1.653017
+      value: -15.468486
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[10].x
+      value: -43.47373
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[10].y
+      value: -27.362225
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[11].x
+      value: -46.94405
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[11].y
+      value: -11.953524
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[12].x
+      value: -51.376072
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[12].y
+      value: -1.0024552
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[13].x
+      value: -25.817856
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[13].y
+      value: 18.140297
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: polygon.vertices.Array.size
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[0].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[0].b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[0].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[0].r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[1].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[1].b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[1].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[1].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[2].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[2].b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[2].g
+      value: 0.05490196
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[2].r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[3].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[3].g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[3].r
+      value: 0.123716116
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[4].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[4].b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[4].g
+      value: 0.91796017
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[4].r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[5].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[5].b
+      value: 0.95985556
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[5].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[5].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[6].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[6].b
+      value: 0.95985556
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[6].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: polygonColors.Array.data[6].r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}

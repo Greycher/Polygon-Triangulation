@@ -32,53 +32,15 @@ public class EPolygonIntersectionDetectorTester : Editor
     {
         base.OnInspectorGUI();
         _pointEditing = EditorGUILayout.Toggle("Point Editing", _pointEditing);
-        if (GUILayout.Button("Detect Intersections"))
+        if (GUILayout.Button("Simplify Polygon"))
         {
-            _tester.DetectIntersections();
+            _tester.SimplifyPolygon();
         }
         
-        if (GUILayout.Button("Clear Intersections"))
+        if (GUILayout.Button("Clear Simplification"))
         {
-            _tester.ClearIntersections();
+            _tester.ClearSimplification();
         }
-        
-        // _vertexCount = Mathf.Clamp(EditorGUILayout.IntField("Vertex Count", _vertexCount), 3, int.MaxValue);
-        // _minVertexDistance = EditorGUILayout.FloatField("Min Vertex Distance", _minVertexDistance);
-        // _maxVertexDistance = EditorGUILayout.FloatField("Min Vertex Distance", _maxVertexDistance);
-        // var sumOfVertices = Vector2.zero;
-        // if (GUILayout.Button("Random Polygon"))
-        // {
-        //     Array.Resize(ref _tester.polygon.vertices, _vertexCount);
-        //     var polygon = _tester.polygon;
-        //     for (int i = 0; i < _vertexCount; i++)
-        //     {
-        //         var randomDistance = Random.Range(_minVertexDistance, _maxVertexDistance);
-        //         if (i == 0)
-        //         {
-        //             polygon.vertices[0] = Random.insideUnitCircle.normalized * randomDistance;
-        //         }
-        //         else if (i == 1)
-        //         {
-        //             polygon.vertices[1] = polygon.vertices[0] + Random.insideUnitCircle.normalized * randomDistance;
-        //         }
-        //         else
-        //         {
-        //             var dir = (polygon.vertices[i - 1] - polygon.vertices[i - 2]).normalized;
-        //             var rot = Quaternion.AngleAxis(Random.Range(5f, 179.99f), Vector3.left);
-        //             polygon.vertices[i] = polygon.vertices[i - 1] + (Vector2)(rot * dir) * randomDistance;
-        //         }
-        //
-        //         sumOfVertices += polygon.vertices[i];
-        //     }
-        //     
-        //     var center = sumOfVertices / _vertexCount;
-        //     for (int i = 0; i < _vertexCount; i++)
-        //     {
-        //         polygon.vertices[i] -= center;
-        //     }
-        //     _tester.DetectIntersections();
-        //     SaveTarget();
-        // }
         
         _saveFoldout = EditorGUILayout.Foldout(_saveFoldout, "Save Polygon Setup");
 
@@ -113,7 +75,7 @@ public class EPolygonIntersectionDetectorTester : Editor
                     vertices[i] = _setup.vertices[i];
                 }
                 SaveTarget();
-                _tester.DetectIntersections();
+                _tester.SimplifyPolygon();
             }
         }
     }
@@ -124,11 +86,7 @@ public class EPolygonIntersectionDetectorTester : Editor
         var vertices = _tester.vertices;
         for (int i = 0; i < vertices.Length; i++)
         {
-            var style = new GUIStyle(GUI.skin.label);
-            style.fontSize = 24;
-            style.normal.textColor = Color.yellow;
             var vertex = vertices[i];
-            Handles.Label(vertex, "V" + i, style);
             if (_pointEditing) vertex = Handles.PositionHandle(vertex, Quaternion.identity);
             vertices[i] = vertex;
         }
@@ -148,7 +106,7 @@ public class EPolygonIntersectionDetectorTester : Editor
     {
         var number = PlayerPrefs.GetInt("PolygonSetupNo", 0);
         var setup = ScriptableObject.CreateInstance<PolygonSetup>();
-        setup.vertices = _tester.vertices;
+        setup.vertices = (Vector2[])_tester.vertices.Clone();
         AssetDatabase.CreateAsset(setup, String.Format("{0}/{1}.asset", _setupSavePath, ++number));
         PlayerPrefs.SetInt("PolygonSetupNo", number);
         Debug.Log("Setup saved with a name of " + number);

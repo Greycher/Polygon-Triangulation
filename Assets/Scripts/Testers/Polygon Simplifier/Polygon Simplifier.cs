@@ -6,10 +6,24 @@ public class PolygonSimplifier
 {
     private SweepLine _sweepLine = new SweepLine();
     private PointList _pointList = new PointList();
-    private List<Vector2> _intersections = new List<Vector2>();
+    private List<Vector2[]> _polygons = new List<Vector2[]>();
+    private List<Vector2> _decomposedPolygonOne = new List<Vector2>();
+    private List<Vector2> _decomposedPolygonTwo = new List<Vector2>();
 
-    public List<Vector2> Simplify(Vector2[] vertices)
+    public List<Vector2[]> Simplify(Vector2[] vertices, int maxDecomposingStep)
     {
+        _polygons.Clear();
+        return InternalSimplify(vertices, maxDecomposingStep);
+    }
+
+    private List<Vector2[]> InternalSimplify(Vector2[] vertices, int maxDecomposingStep)
+    {
+        if (maxDecomposingStep == 0)
+        {
+            _polygons.Add(vertices);
+            return _polygons;
+        }
+        
         Prepare(vertices);
 
         _pointList.Sort();
@@ -23,7 +37,18 @@ public class PolygonSimplifier
                     _sweepLine.UpdateYPositions(point);
                     _sweepLine.Sort();
                     var index = _sweepLine.Add(point);
-                    HandleIntersection(index);
+                    if (HandleIntersection(index, out Point intersectionPoint))
+                    {
+                        DecomposeNonSimplePolygon(vertices, intersectionPoint);
+                        maxDecomposingStep--;
+                        var p1 = _decomposedPolygonOne.ToArray();
+                        var p2 = _decomposedPolygonTwo.ToArray();
+                        if (p1.Length > 3) InternalSimplify(p1, maxDecomposingStep);
+                        else _polygons.Add(p1);
+                        if (p2.Length > 3) InternalSimplify(p2, maxDecomposingStep);
+                        else _polygons.Add(p2);
+                        return _polygons;
+                    }
                     break;
                 }
 
@@ -32,37 +57,68 @@ public class PolygonSimplifier
                     _sweepLine.UpdateYPositions(point);
                     _sweepLine.Sort();
                     var index = _sweepLine.RemoveFromSweepLine(point);
-                    if (index < _sweepLine.PointCount) HandleIntersection(index);
-                    break;
-                }
-                
-                case PointType.Intersection:
-                {
-                    var index1 = _sweepLine.Find(point.s1Index);
-                    var index2 = _sweepLine.Find(point.s2Index);
-                    _sweepLine.Swap(index1, index2);
-                    HandleIntersection(index1);
-                    HandleIntersection(index2);
+                    if (index < _sweepLine.PointCount)
+                    {
+                        if (HandleIntersection(index, out Point intersectionPoint))
+                        {
+                            DecomposeNonSimplePolygon(vertices, intersectionPoint);
+                            maxDecomposingStep--;
+                            var p1 = _decomposedPolygonOne.ToArray();
+                            var p2 = _decomposedPolygonOne.ToArray();
+                            if (p1.Length > 3) InternalSimplify(p1, maxDecomposingStep);
+                            else _polygons.Add(p1);
+                            if (p2.Length > 3) InternalSimplify(p2, maxDecomposingStep);
+                            else _polygons.Add(p2);
+                            return _polygons;
+                        }
+                    }
                     break;
                 }
             }
         }
-
-        return _intersections;
+        
+        _polygons.Add(vertices);
+        return _polygons;
     }
 
-    private void HandleIntersection(int index)
+    private void DecomposeNonSimplePolygon(Vector2[] vertices, Point intersectionPoint)
     {
-        var newIntersections = _sweepLine.CheckForIntersection(_pointList, index);
-        for (int i = 0; i < newIntersections.Count; i++)
+        _decomposedPolygonOne.Clear();
+        _decomposedPolygonTwo.Clear();
+        
+        var s1Index = intersectionPoint.s1Index;
+        var s2Index = intersectionPoint.s2Index;
+        if (s2Index < s1Index)
         {
-            _intersections.Add(newIntersections[i]);
+            var temp = s1Index;
+            s1Index = s2Index;
+            s2Index = temp;
         }
+
+        for (int i = 0; i <= s1Index; i++)
+        {
+            _decomposedPolygonOne.Add(vertices[i]);
+        }
+        _decomposedPolygonOne.Add(intersectionPoint.position);
+        for (int i = s2Index + 1; i < vertices.Length; i++)
+        {
+            _decomposedPolygonOne.Add(vertices[i]);
+        }
+        
+        _decomposedPolygonTwo.Add(intersectionPoint.position);
+        for (int i = s1Index + 1; i <= s2Index; i++)
+        {
+            _decomposedPolygonTwo.Add(vertices[i]);
+        }
+    }
+
+    private bool HandleIntersection(int index, out Point intersectionPoint)
+    {
+        return _sweepLine.CheckForIntersection(index, out intersectionPoint);
     }
 
     private void Prepare(Vector2[] vertices)
     {
-        _intersections.Clear();
         _sweepLine.Prepare(vertices);
         _pointList.Prepare(vertices);
     }
@@ -114,17 +170,6 @@ public class PolygonSimplifier
             point = new Point();
             return false;
         }
-
-        public void Add(Point newPoint)
-        {
-            var pointIndex = CommonAlgorithms.BinarySearchForIndex(_points, 0, _points.Count - 1, newPoint, Equals, Smaller);
-            _points.Insert(pointIndex, newPoint);
-        }
-        
-        private bool Equals(Point p, Point q)
-        {
-            return p.position == q.position;
-        }
     }
 
     private class SweepLine
@@ -132,7 +177,6 @@ public class PolygonSimplifier
         private Vector2[] _vertices;
         List<SweepLinePoint> _sweepLine = new List<SweepLinePoint>();
         private int[,] _intersectionCheckMatrix;
-        private List<Vector2> _intersections = new List<Vector2>();
 
         public int PointCount => _sweepLine.Count;
 
@@ -186,25 +230,31 @@ public class PolygonSimplifier
             return Mathf.Approximately(p.y, q.y);
         }
 
-        public List<Vector2> CheckForIntersection(PointList pointList, int index)
+        public bool CheckForIntersection(int index, out Point intersectionPoint)
         {
-            _intersections.Clear();
-            
             var sweepLineCount = _sweepLine.Count;
-            if (sweepLineCount < 2) return _intersections;
+            intersectionPoint = new Point();
+            if (sweepLineCount < 2) return false;
         
             var s1Index = _sweepLine[index].segmentIndex;
             var lowerLimit = 0;
             while (index > lowerLimit)
             {
                 var s2Index = _sweepLine[index - lowerLimit - 1].segmentIndex;
-                if (Mathf.Abs(s1Index - s2Index) == 1)
+                if (IsSegmentsAreNeighbors(s1Index, s2Index))
                 {
                     lowerLimit++;
                     continue;
                 }
             
-                Intersects(pointList, s1Index, s2Index);
+                if(Intersects(s1Index, s2Index, out Vector2 intersectionPos))
+                {
+                    intersectionPoint.pointType = PointType.Intersection;
+                    intersectionPoint.s1Index = s1Index;
+                    intersectionPoint.s2Index = s2Index;
+                    intersectionPoint.position = intersectionPos;
+                    return true;
+                }
                 break;
             }
         
@@ -212,20 +262,36 @@ public class PolygonSimplifier
             while (index < upperLimit)
             {
                 var s2Index = _sweepLine[index + (sweepLineCount - upperLimit)].segmentIndex;
-                if (Mathf.Abs(s1Index - s2Index) == 1)
+                if (IsSegmentsAreNeighbors(s1Index, s2Index))
                 {
                     upperLimit--;
                     continue;
                 }
-            
-                Intersects(pointList, s1Index, s2Index);
+
+                if(Intersects(s1Index, s2Index, out Vector2 intersectionPos))
+                {
+                    intersectionPoint.pointType = PointType.Intersection;
+                    intersectionPoint.s1Index = s1Index;
+                    intersectionPoint.s2Index = s2Index;
+                    intersectionPoint.position = intersectionPos;
+                    return true;
+                }
                 break;
             }
 
-            return _intersections;
+            return false;
         }
-        
-        private void Intersects(PointList pointList, int s1Index, int s2Index)
+
+        private bool IsSegmentsAreNeighbors(int s1Index, int s2Index)
+        {
+            var vertexCount = _vertices.Length;
+            var nextSegment = (s1Index + 1) % vertexCount;
+            var prevSegment = s1Index - 1;
+            if (prevSegment < 0) prevSegment = vertexCount - 1;
+            return s2Index == nextSegment || s2Index == prevSegment;
+        }
+
+        private bool Intersects(int s1Index, int s2Index, out Vector2 intersectionPos)
         {
             if (_intersectionCheckMatrix[s1Index, s2Index] == 0)
             {
@@ -234,13 +300,11 @@ public class PolygonSimplifier
                 var vertexCount = _vertices.Length;
                 var s1 = new Geometry.Segment(_vertices[s1Index], _vertices[(s1Index + 1) % vertexCount]);
                 var s2 = new Geometry.Segment(_vertices[s2Index], _vertices[(s2Index + 1) % vertexCount]);
-                if (Geometry.TryGetIntersectionPointOfTwoSegments(s1, s2, out Vector2 intersectionPoint))
-                {
-                    var newPoint = new Point(PointType.Intersection, intersectionPoint, s1Index, s2Index);
-                    pointList.Add(newPoint);
-                    _intersections.Add(intersectionPoint);
-                }
+                return Geometry.TryGetIntersectionPointOfTwoSegments(s1, s2, out intersectionPos);
             }
+            
+            intersectionPos = Vector2.zero;
+            return false;
         }
         
         public int RemoveFromSweepLine(Point point)
@@ -256,24 +320,7 @@ public class PolygonSimplifier
 
             return -1;
         }
-
-        public int Find(int segmentIndex)
-        {
-            for (int j = 0; j < _sweepLine.Count; j++)
-            {
-                if (_sweepLine[j].segmentIndex == segmentIndex) return j;
-            }
-
-            return -1;
-        }
-
-        public void Swap(int i, int j)
-        {
-            var temp = _sweepLine[i];
-            _sweepLine[i] = _sweepLine[j];
-            _sweepLine[j] = temp;
-        }
-
+        
         private struct SweepLinePoint
         {
             public float y;

@@ -1,42 +1,48 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using PolygonTriangulation;
 using PolygonTriangulation.Tester;
+using UnityEditor;
 using UnityEngine;
 
 public class PolygonIntersectionDetectorTester : MonoBehaviour
 {
     public Vector2[] vertices;
+    public Color[] polygonColors = new Color[1];
+    public int maxDecomposingStep = Int32.MaxValue;
 
     private const float PointRad = 0.2f;
 
     private PolygonSimplifier _polygonSimplifier = new PolygonSimplifier();
-    private List<Vector2> _intersections;
+    private List<Vector2[]> _simplifiedPolygons;
 
-    public void DetectIntersections()
+    public void SimplifyPolygon()
     {
-        _intersections = _polygonSimplifier.Simplify(vertices);
+        ClearSimplification();
+        _simplifiedPolygons = _polygonSimplifier.Simplify(vertices, maxDecomposingStep);
     }
     
     private void OnDrawGizmos()
     {
-        if (vertices.Length > 0)
+        if (_simplifiedPolygons == null)
         {
             Utility.DrawPolygon(vertices);
-            Utility.DrawVertices(vertices, 0.6f);
+            // Utility.DrawVertices(vertices, 0.6f);
+            // Utility.DrawVertexLabels(vertices, Color.yellow);
         }
-
-        if (_intersections != null)
+        else
         {
-            Gizmos.color = Color.red;
-            for (int i = 0; i < _intersections.Count; i++)
+            for (int i = 0; i < _simplifiedPolygons.Count; i++)
             {
-                Gizmos.DrawSphere(_intersections[i], PointRad);
-            }
+                Utility.DrawPolygon(_simplifiedPolygons[i], polygonColors[i % polygonColors.Length]);
+                // Utility.DrawVertices(_simplifiedPolygons[i], 0.6f);
+            }   
+            // Utility.DrawVertexLabels(_simplifiedPolygons[0], Color.yellow);
         }
     }
 
-    public void ClearIntersections()
+    public void ClearSimplification()
     {
-        _intersections = null;
+        _simplifiedPolygons = null;
     }
 }

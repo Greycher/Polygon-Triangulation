@@ -43,17 +43,58 @@ namespace PolygonTriangulation.Tester
                 Gizmos.DrawSphere(vertices[(i + 2) % length], pointRad);
             }
         }
+        
+        public static void DrawVertices(List<Vector2> vertices, float pointRad = 0.2f)
+        {
+            var length = vertices.Count;
+            for (int i = 0; i < length; i++)
+            {
+                var orientation = DetermineTriangleOrientation(vertices[i], vertices[(i + 1) % length],
+                    vertices[(i + 2) % length]);
+                switch (orientation)
+                {
+                    case Geometry.TriangleOrientation.Clockwise:
+                        Gizmos.color = Color.blue;
+                        break;
+                    case Geometry.TriangleOrientation.CounterClockwise:
+                        Gizmos.color = Color.green;
+                        break;
+                    default:
+                        Gizmos.color = Color.red;
+                        break;
+                }
 
-        public static void DrawPolygon(Vector2[] vertices)
+                Gizmos.DrawSphere(vertices[(i + 2) % length], pointRad);
+            }
+        }
+
+        public static void DrawPolygon(Vector2[] vertices, Color color)
         {
             var length = vertices.Length;
-            Gizmos.color = Color.black;
+            Gizmos.color = color;
             for (int i = 0; i < length; i++)
             {
                 Gizmos.DrawLine(vertices[i], vertices[(i + 1) % length]);
             }
         }
+
+        public static void DrawPolygon(Vector2[] vertices)
+        {
+            DrawPolygon(vertices, Color.black);
+        }
         
+        public static void DrawVertexLabels(Vector2[] vertices, Color color, int fontSize = 24)
+        {
+            var style = new GUIStyle(GUI.skin.label);
+            style.fontSize = fontSize;
+            style.normal.textColor = color;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                var vertex = vertices[i];
+                Handles.Label(vertex, "V" + i, style);
+            }
+        }
+
         public static void DrawDiagonals(Vector2[] vertices)
         {
             var length = vertices.Length;
