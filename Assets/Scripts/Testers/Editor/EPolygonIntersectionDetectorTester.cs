@@ -102,13 +102,16 @@ public class EPolygonIntersectionDetectorTester : Editor
             {
                 if(_setup == null) throw new Exception("Setup can not be empty!");
                 var vertexCount = _setup.vertices.Length;
-                var vertices = _tester.polygon.vertices;
-                Array.Resize(ref vertices, vertexCount);
+                var vertices = _tester.vertices;
+                if (vertices.Length != vertexCount)
+                {
+                    Array.Resize(ref vertices, vertexCount);
+                    _tester.vertices = vertices;
+                }
                 for (int i = 0; i < vertexCount; i++)
                 {
                     vertices[i] = _setup.vertices[i];
                 }
-                _tester.polygon = new Geometry.Polygon(vertices);
                 SaveTarget();
                 _tester.DetectIntersections();
             }
@@ -117,22 +120,22 @@ public class EPolygonIntersectionDetectorTester : Editor
 
     private void OnSceneGUI()
     {
-        if (_pointEditing)
+        EditorGUI.BeginChangeCheck();
+        var vertices = _tester.vertices;
+        for (int i = 0; i < vertices.Length; i++)
         {
-            EditorGUI.BeginChangeCheck();
-            var polygon = _tester.polygon;
-            var vertexCount = polygon.VertexCount;
-            for (int i = 0; i < vertexCount; i++)
-            {
-                var vertex = polygon.vertices[i];
-                vertex = Utility.PositionHandle(vertex, i.ToString(), 24, Color.yellow);
-                polygon.vertices[i] = vertex;
-            }
+            var style = new GUIStyle(GUI.skin.label);
+            style.fontSize = 24;
+            style.normal.textColor = Color.yellow;
+            var vertex = vertices[i];
+            Handles.Label(vertex, "V" + i, style);
+            if (_pointEditing) vertex = Handles.PositionHandle(vertex, Quaternion.identity);
+            vertices[i] = vertex;
+        }
 
-            if (EditorGUI.EndChangeCheck())
-            {
-                SaveTarget();
-            }
+        if (EditorGUI.EndChangeCheck())
+        {
+            SaveTarget();
         }
     }
 
@@ -145,7 +148,7 @@ public class EPolygonIntersectionDetectorTester : Editor
     {
         var number = PlayerPrefs.GetInt("PolygonSetupNo", 0);
         var setup = ScriptableObject.CreateInstance<PolygonSetup>();
-        setup.vertices = _tester.polygon.vertices;
+        setup.vertices = _tester.vertices;
         AssetDatabase.CreateAsset(setup, String.Format("{0}/{1}.asset", _setupSavePath, ++number));
         PlayerPrefs.SetInt("PolygonSetupNo", number);
         Debug.Log("Setup saved with a name of " + number);

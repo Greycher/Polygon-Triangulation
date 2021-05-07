@@ -1,39 +1,34 @@
-﻿using PolygonTriangulation;
+﻿using System.Collections.Generic;
+using PolygonTriangulation;
 using PolygonTriangulation.Tester;
 using UnityEngine;
 
 public class PolygonIntersectionDetectorTester : MonoBehaviour
 {
-    public Geometry.Polygon polygon;
+    public Vector2[] vertices;
 
     private const float PointRad = 0.2f;
 
-    private BentleyOttmann _bentleyOttmann = new BentleyOttmann();
-    private Vector2[] _intersections;
+    private PolygonSimplifier _polygonSimplifier = new PolygonSimplifier();
+    private List<Vector2> _intersections;
 
     public void DetectIntersections()
     {
-        var vertexCount = polygon.VertexCount;
-        var segments = new Geometry.Segment[vertexCount];
-        for (int i = 0; i < vertexCount; i++)
-        {
-            segments[i] = new Geometry.Segment(polygon.vertices[i], polygon.vertices[(i + 1) % vertexCount]);
-        }
-        _intersections = _bentleyOttmann.DetectIntersections(segments);
+        _intersections = _polygonSimplifier.Simplify(vertices);
     }
     
     private void OnDrawGizmos()
     {
-        var vertexCount = polygon.VertexCount;
-        if (vertexCount == 0) return;
-        
-        Utility.DrawPolygon(polygon.vertices);
-        Utility.DrawVertices(polygon.vertices, 0.6f);
+        if (vertices.Length > 0)
+        {
+            Utility.DrawPolygon(vertices);
+            Utility.DrawVertices(vertices, 0.6f);
+        }
 
         if (_intersections != null)
         {
             Gizmos.color = Color.red;
-            for (int i = 0; i < _intersections.Length; i++)
+            for (int i = 0; i < _intersections.Count; i++)
             {
                 Gizmos.DrawSphere(_intersections[i], PointRad);
             }

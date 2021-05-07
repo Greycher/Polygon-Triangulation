@@ -194,7 +194,112 @@ PrefabInstance:
     - target: {fileID: 8804340024478392312, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[0].x
+      value: -8.335194
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[0].y
+      value: 8.52483
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[1].x
+      value: -0.3842857
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[1].y
+      value: 8.468609
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[2].x
+      value: 11.081078
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[2].y
+      value: -7.079158
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[3].x
+      value: -25.584568
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[3].y
+      value: -2.2080874
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[4].x
+      value: 12.245168
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[4].y
+      value: 2.3426187
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[5].x
+      value: -10.011167
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[5].y
+      value: -11.965021
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[6].x
+      value: -23.758667
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[6].y
+      value: 1.2070091
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[7].x
+      value: 1.6357181
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[7].y
+      value: -11.417715
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[8].x
+      value: -8.0998
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[8].y
+      value: -17.98761
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[9].x
+      value: -13.995004
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
+        type: 3}
+      propertyPath: vertices.Array.data[9].y
+      value: -1.653017
       objectReference: {fileID: 0}
     - target: {fileID: 8804340024478392313, guid: 3d3a4d5c68475e244afcad71fdd141a5,
         type: 3}

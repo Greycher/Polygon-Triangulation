@@ -87,19 +87,6 @@ namespace PolygonTriangulation
         }
         
         [Serializable]
-        public struct Polygon
-        {
-            public Vector2[] vertices;
-
-            public int VertexCount => vertices.Length;
-            
-            public Polygon(Vector2[] vertices)
-            {
-                this.vertices = vertices;
-            }
-        }
-        
-        [Serializable]
         public struct Segment
         {
             public Vector2 a;
