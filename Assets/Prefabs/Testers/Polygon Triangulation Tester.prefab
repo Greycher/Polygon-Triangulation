@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 1393526576441415737}
   - component: {fileID: 6796978308765889693}
   m_Layer: 0
-  m_Name: Polygon Diagnol Tester 1
+  m_Name: Polygon Triangulation Tester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,8 +142,20 @@ MonoBehaviour:
   - {fileID: 1393526575974290054}
   - {fileID: 2540939891323721901}
   verticesParent: {fileID: 6362896471617142156}
-  triangles: []
-  triangulated: 0
+  triangles:
+  - {x: -3, y: -4}
+  - {x: 3, y: -4}
+  - {x: 5, y: 0}
+  - {x: 5, y: 0}
+  - {x: 3, y: 4}
+  - {x: -3, y: 4}
+  - {x: -3, y: 4}
+  - {x: -5, y: 0}
+  - {x: -3, y: -4}
+  - {x: -3, y: -4}
+  - {x: 5, y: 0}
+  - {x: -3, y: 4}
+  triangulated: 1
 --- !u!1 &1393526576884787038
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
+using PolygonTriangulation;
 using UnityEngine;
 using static PolygonTriangulation.Geometry;
 
 public class BentleyOttmann
 {
-    Segment[] _segments;
+    Geometry.Segment[] _segments;
     List<Point> _points = new List<Point>();
     List<SweepLinePoint> _sweepLine = new List<SweepLinePoint>();
     List<Vector2> _intersections = new List<Vector2>();
     private int[,] _intersectionCheckMatrix;
     
-    public Vector2[] DetectIntersections(Segment[] segments)
+    public Vector2[] DetectIntersections(Geometry.Segment[] segments)
     {
         Reset();
 
@@ -66,7 +67,7 @@ public class BentleyOttmann
         var sweepLineCount = _sweepLine.Count;
         if (sweepLineCount == 0) return;
         
-        var line1 = new Segment(new Vector2(point.position.x, 1), new Vector2(point.position.x, -1));
+        var line1 = new Geometry.Segment(new Vector2(point.position.x, 1), new Vector2(point.position.x, -1));
         for (int i = 0; i < sweepLineCount; i++)
         {
             var sweepLinePoint = _sweepLine[i];
