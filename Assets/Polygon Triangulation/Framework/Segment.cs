@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PolygonTriangulation.Segment {
@@ -18,6 +19,19 @@ namespace PolygonTriangulation.Segment {
 
         public static bool operator !=(Segment s1, Segment s2) {
             return s1.p != s2.p || s1.q != s2.q;
+        }
+        
+        public static bool Intersect(Segment s, List<Vector2> vertices) {
+            var vertexCount = vertices.Count;
+            for (int i = 0; i < vertexCount; i++) {
+                var edge = new Segment(vertices[i], vertices[(i + 1) % vertexCount]);
+                if (CalculateIntersectionType(s, edge) != SegmentIntersectionType.NoIntersection) return true;
+            }
+            return false;
+        }
+        
+        public static bool Intersect(Segment s1, Segment s2) {
+            return CalculateIntersectionType(s1, s2) != SegmentIntersectionType.NoIntersection;
         }
 
         public static bool Intersect(Segment s1, Segment s2, out Vector2 intersectionPoint) {

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf1c2f69e7360147bda6293ea6d7dfc, type: 3}
+  m_Name: 10
+  m_EditorClassIdentifier: 
+  polygonPosition: {x: -2.84, y: 3.5, z: 0}
+  polygonRotation: {x: -0, y: -0, z: -0, w: 1}
+  vertices:
+  - {x: -4.2536335, y: 1.6846474}
+  - {x: -17.371597, y: 5.110564}
+  - {x: -9.019962, y: -8.995436}
+  - {x: 2.8755307, y: -2.1942656}
+  - {x: 9.6966915, y: -10.9052725}
+  - {x: 20.906958, y: 4.244216}
+  - {x: -2.8339863, y: 11.055546}
+  holePositions:
+  - {x: 1.7836831, y: 3.4797118, z: 0}
+  holeRotations:
+  - {x: -0, y: -0, z: -0, w: 1}
+  holes:
+  - vertices:
+    - {x: -11.555939, y: -2.399164}
+    - {x: -4.3771596, y: -2.007415}
+    - {x: 0.39287335, y: 0.11244559}
+    - {x: 6.087815, y: -4.591034}
+    - {x: 6.029361, y: 4.6571527}
+    - {x: 3.4230494, y: 4.228015}

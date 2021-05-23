@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   s1:
-    a: {x: -7, y: 0}
-    b: {x: 0, y: 0}
+    p: {x: -1.5, y: 1.5}
+    q: {x: 1.5, y: -1.5}
   s2:
-    a: {x: -7.2471085, y: -1.0611088}
-    b: {x: -1.1337876, y: 0.81400144}
+    p: {x: 1.5, y: 1.5}
+    q: {x: -1.5, y: -1.5}
+  editMode: 1

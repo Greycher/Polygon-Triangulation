@@ -8,7 +8,7 @@ namespace PolygonTriangulation.Segment.Test
         public Segment s2;
         public bool editMode;
         
-        private const float PointRadius = 0.1f;
+        private const float PointRadius = 0.3f;
 
         private void OnDrawGizmos()
         {
@@ -22,7 +22,7 @@ namespace PolygonTriangulation.Segment.Test
                 var oldColor = Gizmos.color;
                 Gizmos.color = Color.magenta;
                 {
-                    Gizmos.DrawSphere(intersectionPoint, PointRadius);
+                    Gizmos.DrawSphere(transform.TransformPoint(intersectionPoint), PointRadius);
                 }
                 Gizmos.color = oldColor;
             }
