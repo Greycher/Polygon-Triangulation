@@ -29,6 +29,17 @@ namespace PolygonTriangulation.Test {
                 }
             }
             
+            if (_polygonWithHoles.polygonMode == Polygon.PolygonMode.Triangulated) {
+                if (GUILayout.Button("Non-Triangulate")) {
+                    _polygonWithHoles.ToDefault();
+                }
+            }
+            else {
+                if (GUILayout.Button("Triangulate")) {
+                    _polygonWithHoles.Triangulate();
+                }
+            }
+            
             if (GUILayout.Button("Save")) {
                 PolygonWithHolesSetup.Record(_polygonWithHoles);
             }

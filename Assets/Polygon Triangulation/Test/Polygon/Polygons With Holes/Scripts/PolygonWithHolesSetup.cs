@@ -13,7 +13,7 @@ namespace PolygonTriangulation.Test {
         public List<Quaternion> holeRotations = new List<Quaternion>();
         public List<Hole> holes = new List<Hole>();
 
-        private const string _savePath = "Assets/Polygon Triangulation/Test/Trangulation Testers/Polygons With Holes/Setups/";
+        private const string _savePath = "Assets/Polygon Triangulation/Test/Trangulation/Polygons With Holes/Setups";
 
         public static void Record(PolygonWithHoles polygonWithHoles) {
             var newSetup = ScriptableObject.CreateInstance<PolygonWithHolesSetup>();

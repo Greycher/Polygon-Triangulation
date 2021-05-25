@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PolygonTriangulation.Tester;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,6 +12,10 @@ namespace PolygonTriangulation.Test {
 
         private const float EdgeThickness = 0.2f;
         private const float PointRad = 0.3f;
+
+        [HideInInspector] public List<Polygon> triangles = new List<Polygon>();
+        [HideInInspector] public PolygonMode polygonMode = PolygonMode.Default;
+        
         private Vector3 _vertexLabelOffset = new Vector3(-0.08f, 0.1f, 0);
 
         public void Centralize() {
@@ -19,14 +24,55 @@ namespace PolygonTriangulation.Test {
             transform.position += (Vector3) center;
         }
 
+        public void Triangulate() {
+            while (this.triangles.Count > 0) {
+                var triangle = this.triangles[0];
+                DestroyImmediate(triangle.gameObject);
+                this.triangles.RemoveAt(0);
+            }
+            
+            var triangles = Triangulator.Triangulate(vertices);
+            var tr = transform;
+            var pos = tr.position;
+            var rot = tr.rotation;
+            for (int i = 0; i < triangles.Count; i++) {
+                var triangle = triangles[i];
+                var newPolygon = Polygon.NewPolygon(triangle, pos, rot, tr, "Triangle " + i);
+                newPolygon.drawVertex = false;
+                newPolygon.drawVertexIndex = false;
+                newPolygon.Centralize();
+                this.triangles.Add(newPolygon);
+            }
+            polygonMode = PolygonMode.Triangulated;
+        }
+        
+        public void ToDefault() {
+            if (polygonMode == PolygonMode.Triangulated) {
+                for (int i = 0; i < triangles.Count; i++) {
+                    triangles[i].gameObject.SetActive(false);
+                }
+            }
+            
+            polygonMode = PolygonMode.Default;
+        }
+
         private Vector2 CalculateCenter() {
             var vertexSum = Vector2.zero;
             var vertexCount = vertices.Count;
             for (var i = 0; i < vertexCount; i++) vertexSum += vertices[i];
             return vertexSum / vertexCount;
         }
+        
+        public void Load(PolygonSetup setup) {
+            vertices.Clear();
+            for (int i = 0; i < setup.vertices.Count; i++) {
+                vertices.Add(setup.vertices[i]);
+            }
+        }
 
         private void OnDrawGizmos() {
+            if (polygonMode != PolygonMode.Default) return;
+
             var style = new GUIStyle(GUI.skin.label) {fontSize = 24, normal = new GUIStyleState() {textColor = Color.green}};
             var vertexCount = vertices.Count;
             for (var i = 0; i < vertexCount; i++) {

@@ -52,17 +52,20 @@ namespace PolygonTriangulation.Test {
         }
 
         public void Triangulate() {
-            var holes = GetHoles();
-            Triangulator.Triangulate(polygon.vertices, holes);
+            Simplify();
+            for (int i = 0; i < simplifiedPolygons.Count; i++) {
+                simplifiedPolygons[i].Triangulate();
+            }
+            polygonMode = Polygon.PolygonMode.Triangulated;
         }
 
         public void ToDefault() {
-            if (polygonMode == Polygon.PolygonMode.Simplified) {
+            if (polygonMode != Polygon.PolygonMode.Default) {
                 for (int i = 0; i < simplifiedPolygons.Count; i++) {
                     simplifiedPolygons[i].gameObject.SetActive(false);
                 }
             }
-            
+
             polygon.gameObject.SetActive(true);
             for (int i = 0; i < holes.Count; i++) {
                 holes[i].gameObject.SetActive(true);

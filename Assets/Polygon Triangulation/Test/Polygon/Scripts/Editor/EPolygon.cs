@@ -1,3 +1,4 @@
+using PolygonTriangulation.Tester;
 using UnityEditor;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ namespace PolygonTriangulation.Test {
     [CustomEditor(typeof(Polygon))]
     public class EPolygon : Editor {
         private Polygon _polygon;
+        private PolygonSetup _setup;
         private bool _editMode;
 
         public override void OnInspectorGUI() {
@@ -12,6 +14,27 @@ namespace PolygonTriangulation.Test {
             EnsureObjects();
             _editMode = EditorGUILayout.Toggle("Edit Mode", _editMode);
             if (GUILayout.Button("Centralize")) _polygon.Centralize();
+            
+            if (_polygon.polygonMode == Polygon.PolygonMode.Triangulated) {
+                if (GUILayout.Button("Non-Triangulate")) {
+                    _polygon.ToDefault();
+                }
+            }
+            else {
+                if (GUILayout.Button("Triangulate")) {
+                    _polygon.Triangulate();
+                }
+            }
+            
+            if (GUILayout.Button("Save")) {
+                PolygonSetup.Record(_polygon);
+            }
+            
+            _setup = (PolygonSetup) EditorGUILayout.ObjectField("Setup", _setup, typeof(PolygonSetup));
+            if (GUILayout.Button("Load")) {
+                _polygon.ToDefault();
+                _polygon.Load(_setup);
+            }
         }
 
         private void OnSceneGUI() {

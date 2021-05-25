@@ -63,7 +63,7 @@ public class EPolygonIntersectionDetectorTester : Editor
             if (GUILayout.Button("Load"))
             {
                 if(_setup == null) throw new Exception("Setup can not be empty!");
-                var vertexCount = _setup.vertices.Length;
+                var vertexCount = _setup.vertices.Count;
                 var vertices = _tester.vertices;
                 if (vertices.Length != vertexCount)
                 {
@@ -106,7 +106,7 @@ public class EPolygonIntersectionDetectorTester : Editor
     {
         var number = PlayerPrefs.GetInt("PolygonSetupNo", 0);
         var setup = ScriptableObject.CreateInstance<PolygonSetup>();
-        setup.vertices = (Vector2[])_tester.vertices.Clone();
+        // setup.vertices = _tester.vertices.Clone();
         AssetDatabase.CreateAsset(setup, String.Format("{0}/{1}.asset", _setupSavePath, ++number));
         PlayerPrefs.SetInt("PolygonSetupNo", number);
         Debug.Log("Setup saved with a name of " + number);
