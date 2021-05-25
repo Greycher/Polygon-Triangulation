@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace PolygonTriangulation {
+namespace PolygonTriangulation.Framework {
     public struct Triangle {
         public Vector2 a;
         public Vector2 b;

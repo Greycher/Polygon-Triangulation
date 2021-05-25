@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PolygonTriangulation.Segment {
+namespace PolygonTriangulation.Framework {
     [Serializable]
     public struct Segment {
         public Vector2 p;

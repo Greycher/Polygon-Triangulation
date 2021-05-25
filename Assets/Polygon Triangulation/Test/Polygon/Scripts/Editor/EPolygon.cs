@@ -1,4 +1,3 @@
-using PolygonTriangulation.Tester;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,22 +13,25 @@ namespace PolygonTriangulation.Test {
             EnsureObjects();
             _editMode = EditorGUILayout.Toggle("Edit Mode", _editMode);
             if (GUILayout.Button("Centralize")) _polygon.Centralize();
-            
-            if (_polygon.polygonMode == Polygon.PolygonMode.Triangulated) {
-                if (GUILayout.Button("Non-Triangulate")) {
-                    _polygon.ToDefault();
-                }
+
+            if (_polygon.polygonMode == Polygon.PolygonMode.Simplified) {
+                if (GUILayout.Button("Non-Simplify")) _polygon.ToDefault();
             }
             else {
-                if (GUILayout.Button("Triangulate")) {
-                    _polygon.Triangulate();
-                }
+                if (GUILayout.Button("Simplify")) _polygon.Simplify();
             }
-            
-            if (GUILayout.Button("Save")) {
-                PolygonSetup.Record(_polygon);
+
+            if (_polygon.polygonMode == Polygon.PolygonMode.Triangulated) {
+                if (GUILayout.Button("Non-Triangulate")) _polygon.ToDefault();
             }
-            
+            else {
+                if (GUILayout.Button("Triangulate")) _polygon.Triangulate();
+            }
+
+            if (GUILayout.Button("Reverse Order")) _polygon.ReverseOrder();
+
+            if (GUILayout.Button("Save")) PolygonSetup.Record(_polygon);
+
             _setup = (PolygonSetup) EditorGUILayout.ObjectField("Setup", _setup, typeof(PolygonSetup));
             if (GUILayout.Button("Load")) {
                 _polygon.ToDefault();
@@ -48,9 +50,7 @@ namespace PolygonTriangulation.Test {
                     vertices[i] = parent.InverseTransformPoint(Handles.PositionHandle(parent.TransformPoint(vertices[i]), Quaternion.identity));
                 }
 
-                if (EditorGUI.EndChangeCheck()) {
-                    EditorUtility.SetDirty(target);
-                }
+                if (EditorGUI.EndChangeCheck()) EditorUtility.SetDirty(target);
             }
         }
 

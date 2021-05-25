@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using PolygonTriangulation.Framework;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace PolygonTriangulation.Test {
     public class PolygonWithHoles : MonoBehaviour {
@@ -17,7 +15,7 @@ namespace PolygonTriangulation.Test {
             var polyTr = polygon.transform;
             var diff = polyTr.localPosition;
             polyTr.localPosition = Vector3.zero;
-            for (int i = 0; i < holes.Count; i++) {
+            for (var i = 0; i < holes.Count; i++) {
                 var hole = holes[i];
                 hole.Centralize();
                 hole.transform.localPosition -= diff;
@@ -25,11 +23,7 @@ namespace PolygonTriangulation.Test {
         }
 
         public void Simplify() {
-            while (simplifiedPolygons.Count > 0) {
-                var simplifiedPolygon = simplifiedPolygons[0];
-                DestroyImmediate(simplifiedPolygon.gameObject);
-                simplifiedPolygons.RemoveAt(0);
-            }
+            ToDefault();
 
             var vertices = GetVertices();
             var holes = GetHoles();
@@ -37,7 +31,7 @@ namespace PolygonTriangulation.Test {
             var polygonTr = polygon.transform;
             var polygonPos = polygonTr.position;
             var polygonRot = polygonTr.rotation;
-            for (int i = 0; i < newSimplifiedPolygons.Count; i++) {
+            for (var i = 0; i < newSimplifiedPolygons.Count; i++) {
                 var simplifiedPolygon = newSimplifiedPolygons[i];
                 var newPolygon = Polygon.NewPolygon(simplifiedPolygon, polygonPos, polygonRot, transform, nameof(Polygon) + " " + i);
                 newPolygon.Centralize();
@@ -45,7 +39,7 @@ namespace PolygonTriangulation.Test {
             }
 
             polygon.gameObject.SetActive(false);
-            for (int i = 0; i < this.holes.Count; i++) {
+            for (var i = 0; i < this.holes.Count; i++) {
                 this.holes[i].gameObject.SetActive(false);
             }
             polygonMode = Polygon.PolygonMode.Simplified;
@@ -53,21 +47,21 @@ namespace PolygonTriangulation.Test {
 
         public void Triangulate() {
             Simplify();
-            for (int i = 0; i < simplifiedPolygons.Count; i++) {
+            for (var i = 0; i < simplifiedPolygons.Count; i++) {
                 simplifiedPolygons[i].Triangulate();
             }
             polygonMode = Polygon.PolygonMode.Triangulated;
         }
 
         public void ToDefault() {
-            if (polygonMode != Polygon.PolygonMode.Default) {
-                for (int i = 0; i < simplifiedPolygons.Count; i++) {
-                    simplifiedPolygons[i].gameObject.SetActive(false);
-                }
+            while (simplifiedPolygons.Count > 0) {
+                var simplifiedPolygon = simplifiedPolygons[0];
+                if (simplifiedPolygon != null) DestroyImmediate(simplifiedPolygon.gameObject);
+                simplifiedPolygons.RemoveAt(0);
             }
 
             polygon.gameObject.SetActive(true);
-            for (int i = 0; i < holes.Count; i++) {
+            for (var i = 0; i < holes.Count; i++) {
                 holes[i].gameObject.SetActive(true);
             }
 
@@ -76,11 +70,11 @@ namespace PolygonTriangulation.Test {
 
         private List<List<Vector2>> GetHoles() {
             var fillHoles = new List<List<Vector2>>();
-            for (int i = 0; i < holes.Count; i++) {
+            for (var i = 0; i < holes.Count; i++) {
                 var hole = holes[i];
                 var holeTr = hole.transform;
                 var fillHole = new List<Vector2>();
-                for (int j = 0; j < hole.vertices.Count; j++) {
+                for (var j = 0; j < hole.vertices.Count; j++) {
                     fillHole.Add(transform.InverseTransformPoint(holeTr.TransformPoint(hole.vertices[j])));
                 }
                 fillHoles.Add(fillHole);
@@ -88,11 +82,11 @@ namespace PolygonTriangulation.Test {
 
             return fillHoles;
         }
-        
+
         private List<Vector2> GetVertices() {
             var fillPolygon = new List<Vector2>();
             var polygonTr = polygon.transform;
-            for (int i = 0; i < polygon.vertices.Count; i++) {
+            for (var i = 0; i < polygon.vertices.Count; i++) {
                 fillPolygon.Add(transform.InverseTransformPoint(polygonTr.TransformPoint(polygon.vertices[i])));
             }
             return fillPolygon;
@@ -107,10 +101,10 @@ namespace PolygonTriangulation.Test {
                 DestroyImmediate(hole.gameObject);
                 holes.RemoveAt(0);
             }
-            
+
             while (holes.Count < setup.holes.Count) {
                 var index = holes.Count;
-                var name = String.Format("Hole ({0})", index);
+                var name = string.Format("Hole ({0})", index);
                 var hole = Polygon.NewPolygon(setup.holes[index].vertices, setup.holePositions[index], setup.holeRotations[index], transform, name);
                 hole.drawVertex = false;
                 hole.drawVertexIndex = false;
