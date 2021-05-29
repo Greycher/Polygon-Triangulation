@@ -4,11 +4,10 @@ using UnityEngine;
 
 namespace PolygonTriangulation.Framework {
     public static class Simplifier {
-
         public static List<List<Vector2>> Simplify(List<Vector2> vertices) {
             var polygons = new List<List<Vector2>>();
             var vertexCount = vertices.Count;
-            for (var edgeOneIndex = 0; edgeOneIndex < vertices.Count; edgeOneIndex++) {
+            for (var edgeOneIndex = 0; edgeOneIndex < vertexCount - 2; edgeOneIndex++) {
                 var lastEdgeIndex = vertexCount - 1;
                 var edgeOne = new Segment(vertices[edgeOneIndex], vertices[(edgeOneIndex + 1) % vertexCount]);
                 //First index is neighbor with last index
@@ -214,7 +213,7 @@ namespace PolygonTriangulation.Framework {
                     if (!intersection) {
                         // Debug.DrawLine(segment.p, segment.q, Color.red, 10);
                         vertexIndexSet.Add(vertIndex);
-                        surgerySegment = new SurgerySegment(segment, holeVertexIndex, vertIndex);
+                        surgerySegment = new SurgerySegment(holeVertexIndex, vertIndex);
                         return true;
                     }
                 }
@@ -228,7 +227,7 @@ namespace PolygonTriangulation.Framework {
             public readonly int holeVertIndex;
             public readonly int vertIndex;
 
-            public SurgerySegment(Segment segment, int holeVertIndex, int vertIndex) {
+            public SurgerySegment(int holeVertIndex, int vertIndex) {
                 this.holeVertIndex = holeVertIndex;
                 this.vertIndex = vertIndex;
             }

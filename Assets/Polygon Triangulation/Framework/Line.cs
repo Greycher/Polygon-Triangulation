@@ -10,7 +10,7 @@ namespace PolygonTriangulation.Framework {
             this.a = a;
             this.b = b;
         }
-    
+        
         public static bool TryGetIntersectionPointOfTwoLines(Line l1, Line l2, out Vector2 intersectionPoint) {
             var a = l1.a;
             var b = l1.b;

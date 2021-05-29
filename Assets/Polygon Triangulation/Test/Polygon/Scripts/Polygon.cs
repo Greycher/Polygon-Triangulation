@@ -10,9 +10,8 @@ namespace PolygonTriangulation.Test {
         public Color color = Color.black;
         public bool drawVertex = true;
         public bool drawVertexIndex = true;
-
-        private const float EdgeThickness = 0.2f;
-        private const float PointRad = 0.3f;
+        public float edgeThickness = 0.2f;
+        public float pointRad = 0.2f;
 
         [HideInInspector] public List<Polygon> triangles = new List<Polygon>();
         [HideInInspector] public List<Polygon> simplifiedPolygons = new List<Polygon>();
@@ -122,6 +121,13 @@ namespace PolygonTriangulation.Test {
             }
             return vertexSum / vertexCount;
         }
+        
+        public void Scale(float scaleFactor) {
+            Centralize();
+            for (int i = 0; i < vertices.Count; i++) {
+                vertices[i] *= scaleFactor;
+            }
+        }
 
         private void OnDrawGizmos() {
             if (polygonMode != PolygonMode.Default) return;
@@ -136,7 +142,7 @@ namespace PolygonTriangulation.Test {
                 Handles.color = color;
                 {
                     var nextVertex = transform.TransformPoint(vertices[(i + 1) % vertexCount]);
-                    Handles.DrawLine(vertex, nextVertex, EdgeThickness);
+                    Handles.DrawLine(vertex, nextVertex, edgeThickness);
                 }
                 Handles.color = oldColor;
 
@@ -144,7 +150,7 @@ namespace PolygonTriangulation.Test {
                     oldColor = Handles.color;
                     Handles.color = Color.blue;
                     {
-                        Handles.DrawSolidDisc(vertex, Vector3.back, PointRad);
+                        Handles.DrawSolidDisc(vertex, Vector3.back, pointRad);
                     }
                     Handles.color = oldColor;
                 }

@@ -7,6 +7,7 @@ namespace PolygonTriangulation.Test {
         private Polygon _polygon;
         private PolygonSetup _setup;
         private bool _editMode;
+        private float _scale = 1;
 
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
@@ -31,6 +32,9 @@ namespace PolygonTriangulation.Test {
             if (GUILayout.Button("Reverse Order")) _polygon.ReverseOrder();
 
             if (GUILayout.Button("Save")) PolygonSetup.Record(_polygon);
+            
+            _scale = EditorGUILayout.FloatField("Scale", _scale);
+            if (GUILayout.Button("Scale")) _polygon.Scale(_scale);
 
             _setup = (PolygonSetup) EditorGUILayout.ObjectField("Setup", _setup, typeof(PolygonSetup));
             if (GUILayout.Button("Load")) {
